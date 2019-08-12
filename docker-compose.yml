@@ -1,0 +1,35 @@
+version: '3'
+services:
+
+  nginx:
+    restart: always
+    build:
+      context: ./nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./php/app:/var/www
+      - ./.logs/nginx/:/var/log/nginx/
+#            - ./shared_folder:/tmp/shared_folder
+      - ./.logs/nginx/:/var/log/nginx
+    links:
+      - php
+
+  php:
+    restart: always
+    build:
+      context: ./php
+    volumes:
+      - ./php/app/:/var/www
+    expose:
+      - 9000
+
+  database:
+    build:
+      context: ./database
+    environment:
+      - MYSQL_DATABASE=mydb
+      - MYSQL_USER=myuser
+      - MYSQL_PASSWORD=secret
+      - MYSQL_ROOT_PASSWORD=docker
