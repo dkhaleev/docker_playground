@@ -60,7 +60,7 @@ RUN sed -i "s|;listen.owner\s*=\s*nobody|listen.owner = ${PHP_FPM_USER}|g" /etc/
     && sed -i 's/include\ \=\ \/etc\/php5\/fpm.d\/\*.conf/\;include\ \=\ \/etc\/php7\/fpm.d\/\*.conf/g' /etc/php7/php-fpm.conf
 
 RUN echo "memory_limit=512M" >> /etc/php7/php.ini
-RUN echo "date.timezone=UTC" >> /etc/php7/php.ini
+RUN echo "date.timezone=${TIMEZONE}" >> /etc/php7/php.ini
 RUN echo "upload_max_filesize=50M" >> /etc/php7/php.ini
 RUN echo "post_max_size=50M" >> /etc/php7/php.ini
 ADD symfony.pool.conf /etc/php7/php-fpm.d/
@@ -72,4 +72,4 @@ RUN chmod +x /fpm.sh /entry.sh
 
 CMD ["/entry.sh"]
 
-EXPOSE 9000
+EXPOSE ${FPM_DEFAULT_PORT}

@@ -17,5 +17,5 @@ RUN rm -r /etc/nginx/conf.d/default.conf
 
 CMD ["nginx"]
 
-EXPOSE 80
-EXPOSE 443
+EXPOSE ${PROXY_HTTP_EXTERNAL_PORT}
+EXPOSE ${PROXY_HTTPS_EXTERNAL_PORT}

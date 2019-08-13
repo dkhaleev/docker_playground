@@ -19,4 +19,4 @@ RUN echo "upstream php-upstream { server php:9001 fail_timeout=5s max_fails=5; }
 
 CMD ["nginx"]
 
-EXPOSE 3457
+EXPOSE ${NGINX_HTTP_EXTERNAL_PORT}
