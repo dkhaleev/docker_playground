@@ -15,6 +15,8 @@ services:
       - "docker_playground.dev.localhost:127.17.0.1"
     links:
       - nginx
+    depends_on:
+      - nginx
 
   nginx:
     restart: always
@@ -29,6 +31,8 @@ services:
       - ./inventory/localhost_ssl/localhost.crt:/etc/nginx/ssl/rootCA.crt
     links:
       - php
+    depends_on:
+      - php
 
   php:
     restart: always
@@ -37,12 +41,18 @@ services:
     volumes:
       - ./php/app/:/var/www
       - ./shared_folder:/tmp/shared_folder
+    links:
+      - database
+    depends_on:
+      - database
 
   database:
     build:
       context: ./database
     environment:
-      - MYSQL_DATABASE=mydb
-      - MYSQL_USER=myuser
-      - MYSQL_PASSWORD=secret
-      - MYSQL_ROOT_PASSWORD=docker
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+    volumes:
+      - ./inventory/SQL/sample.sql:/docker-entrypoint-initdb.d/sample.sql

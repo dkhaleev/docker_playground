@@ -37,7 +37,9 @@ RUN apk update \
     php7-fileinfo \
     make \
     libssl1.0 \
-    curl
+    curl \
+    libxml2-dev
+
 
 ENV PHP_FPM_USER="www"
 ENV PHP_FPM_GROUP="www"
